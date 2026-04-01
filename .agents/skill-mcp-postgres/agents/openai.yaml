@@ -1,0 +1,14 @@
+interface:
+  display_name: "Postgres MCP"
+  short_description: "Query PostgreSQL safely via MCP"
+  default_prompt: "Use $mcp-postgres to inspect schema and run read-only PostgreSQL queries."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "postgres"
+      description: "PostgreSQL MCP server"
+      transport: "stdio"
+
+policy:
+  allow_implicit_invocation: true

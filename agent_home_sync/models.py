@@ -13,6 +13,7 @@ EXCLUDED_NAMES = {".DS_Store"}
 class SyncPlan:
     source_root: Path
     target_root: Path
+    config_target_root: Path
     dry_run: bool
     backup_config: bool
     managed_trees: tuple[str, ...]

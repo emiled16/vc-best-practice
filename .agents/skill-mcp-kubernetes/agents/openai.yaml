@@ -1,0 +1,14 @@
+interface:
+  display_name: "Kubernetes MCP"
+  short_description: "Inspect clusters through MCP"
+  default_prompt: "Use $mcp-kubernetes to inspect Kubernetes contexts, resources, events, and Helm state."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "kubernetes"
+      description: "Kubernetes MCP server"
+      transport: "stdio"
+
+policy:
+  allow_implicit_invocation: true

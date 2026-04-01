@@ -1,0 +1,14 @@
+interface:
+  display_name: "Context7 MCP"
+  short_description: "Use current library docs via MCP"
+  default_prompt: "Use $mcp-context7 to answer this with current library or framework documentation."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "context7"
+      description: "Context7 documentation MCP server"
+      transport: "stdio"
+
+policy:
+  allow_implicit_invocation: true

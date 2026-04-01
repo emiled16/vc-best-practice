@@ -1,0 +1,52 @@
+[mcp_servers.context7]
+command = "sh"
+args = [
+  "-c",
+  'exec npx -y @upstash/context7-mcp --api-key "$CONTEXT7_API_KEY"',
+]
+startup_timeout_ms = 20_000
+
+[mcp_servers.github]
+command = "sh"
+args = [
+  "-c",
+  'exec docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN -e GITHUB_TOOLSETS ghcr.io/github/github-mcp-server',
+]
+startup_timeout_ms = 30_000
+
+[mcp_servers.postgres]
+command = "sh"
+args = [
+  "-c",
+  'exec npx -y @modelcontextprotocol/server-postgres "$POSTGRES_MCP_URL"',
+]
+startup_timeout_ms = 20_000
+
+[mcp_servers.kubernetes]
+command = "sh"
+args = [
+  "-c",
+  'exec npx -y kubernetes-mcp-server@latest --toolsets core,helm',
+]
+startup_timeout_ms = 30_000
+
+[mcp_servers.docker]
+command = "docker"
+args = ["mcp", "gateway", "run"]
+startup_timeout_ms = 30_000
+
+[mcp_servers.notion]
+command = "sh"
+args = [
+  "-c",
+  'exec npx -y @notionhq/notion-mcp-server',
+]
+startup_timeout_ms = 20_000
+
+[mcp_servers.sqlite]
+command = "sh"
+args = [
+  "-c",
+  'exec npx -y @modelcontextprotocol/server-sqlite "$SQLITE_MCP_PATH"',
+]
+startup_timeout_ms = 20_000

@@ -1,0 +1,14 @@
+interface:
+  display_name: "Notion MCP"
+  short_description: "Work with live Notion content"
+  default_prompt: "Use $mcp-notion to search, fetch, and update live Notion pages, databases, and comments."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "notion"
+      description: "Notion MCP server"
+      transport: "stdio"
+
+policy:
+  allow_implicit_invocation: true

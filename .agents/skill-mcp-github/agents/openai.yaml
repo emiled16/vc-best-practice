@@ -1,0 +1,14 @@
+interface:
+  display_name: "GitHub MCP"
+  short_description: "Use GitHub workflows through MCP"
+  default_prompt: "Use $mcp-github to inspect or operate on GitHub repositories, issues, pull requests, and workflows."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "github"
+      description: "GitHub MCP server"
+      transport: "stdio"
+
+policy:
+  allow_implicit_invocation: true

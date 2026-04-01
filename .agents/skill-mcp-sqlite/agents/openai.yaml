@@ -1,0 +1,14 @@
+interface:
+  display_name: "SQLite MCP"
+  short_description: "Query SQLite databases via MCP"
+  default_prompt: "Use $mcp-sqlite to inspect schema and query a local SQLite database through MCP."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "sqlite"
+      description: "SQLite MCP server"
+      transport: "stdio"
+
+policy:
+  allow_implicit_invocation: true

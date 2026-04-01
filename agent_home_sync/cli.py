@@ -20,21 +20,27 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--source",
         type=Path,
-        default=repo_root / ".codex",
+        default=repo_root / ".agents",
         help="Source managed home directory. Default: %(default)s",
     )
     parser.add_argument(
         "--target",
         type=Path,
+        default=Path.home() / ".agents",
+        help="Target home directory for managed trees. Default: %(default)s",
+    )
+    parser.add_argument(
+        "--config-target",
+        type=Path,
         default=Path.home() / ".codex",
-        help="Target home directory. Default: %(default)s",
+        help="Target directory for config.toml. Default: %(default)s",
     )
     parser.add_argument(
         "--tool",
-        choices=("codex", "claude", "custom"),
-        default="codex",
+        choices=("agents", "claude", "custom"),
+        default="agents",
         help=(
-            "Convenience target preset. 'codex' uses ~/.codex, 'claude' uses "
+            "Convenience target preset. 'agents' uses ~/.agents, 'claude' uses "
             "~/.claude, and 'custom' leaves --target unchanged."
         ),
     )
@@ -61,8 +67,17 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def determine_target_root(tool: str, explicit_target: Path) -> Path:
+    default_agents_target = Path.home() / ".agents"
+    if tool == "agents":
+        return default_agents_target if explicit_target == default_agents_target else explicit_target
+    if tool == "claude":
+        return Path.home() / ".claude" if explicit_target == default_agents_target else explicit_target
+    return explicit_target
+
+
+def determine_config_target_root(tool: str, explicit_target: Path) -> Path:
     default_codex_target = Path.home() / ".codex"
-    if tool == "codex":
+    if tool == "agents":
         return default_codex_target if explicit_target == default_codex_target else explicit_target
     if tool == "claude":
         return Path.home() / ".claude" if explicit_target == default_codex_target else explicit_target
@@ -75,6 +90,7 @@ def parse_args(argv: list[str]) -> SyncPlan:
 
     source_root = args.source.expanduser().resolve()
     target_root = determine_target_root(args.tool, args.target.expanduser())
+    config_target_root = determine_config_target_root(args.tool, args.config_target.expanduser())
     managed_trees = tuple(args.managed_trees or DEFAULT_MANAGED_TREES)
 
     if not source_root.is_dir():
@@ -83,6 +99,7 @@ def parse_args(argv: list[str]) -> SyncPlan:
     return SyncPlan(
         source_root=source_root,
         target_root=target_root,
+        config_target_root=config_target_root,
         dry_run=args.dry_run,
         backup_config=not args.no_config_backup,
         managed_trees=managed_trees,
@@ -92,6 +109,7 @@ def parse_args(argv: list[str]) -> SyncPlan:
 def main(argv: list[str] | None = None) -> int:
     plan = parse_args(argv or sys.argv[1:])
     ensure_directory(plan.target_root, dry_run=plan.dry_run)
+    ensure_directory(plan.config_target_root, dry_run=plan.dry_run)
     merge_config(plan)
     sync_legacy_skill_dirs(plan)
     sync_managed_trees(plan)

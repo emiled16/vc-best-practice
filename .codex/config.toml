@@ -1,7 +1,0 @@
-[mcp_servers.context7]
-command = "sh"
-args = [
-  "-c",
-  'exec npx -y @upstash/context7-mcp --api-key "$CONTEXT7_API_KEY"',
-]
-startup_timeout_ms = 20_000

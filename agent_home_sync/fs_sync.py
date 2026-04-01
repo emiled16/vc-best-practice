@@ -29,7 +29,7 @@ def backup_file(path: Path) -> Path:
 
 def merge_config(plan: SyncPlan) -> None:
     source_config = plan.source_root / "config.toml"
-    target_config = plan.target_root / "config.toml"
+    target_config = plan.config_target_root / "config.toml"
 
     if not source_config.is_file():
         return
@@ -46,7 +46,7 @@ def merge_config(plan: SyncPlan) -> None:
         log(f"Would merge {source_config} into {target_config}")
         return
 
-    plan.target_root.mkdir(parents=True, exist_ok=True)
+    plan.config_target_root.mkdir(parents=True, exist_ok=True)
     if target_config.exists() and plan.backup_config:
         backup_path = backup_file(target_config)
         log(f"Backed up existing config to {backup_path}")
@@ -54,7 +54,7 @@ def merge_config(plan: SyncPlan) -> None:
     with tempfile.NamedTemporaryFile(
         mode="w",
         encoding="utf-8",
-        dir=plan.target_root,
+        dir=plan.config_target_root,
         delete=False,
     ) as handle:
         handle.write(merged_text)
