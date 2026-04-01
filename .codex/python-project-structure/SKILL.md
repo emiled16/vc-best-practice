@@ -29,6 +29,8 @@ Use this structure as the default baseline.
 └── pyproject.toml
 ```
 
+Folders can be omitted if not needed, but the top-level structure should be followed when applicable. For example, if no Dockerfiles are needed, the `Dockerfile` and `.dockerignore` can be omitted. If no documentation is needed, the `docs/` directory can be omitted.
+
 ## Conventions
 
 - Keep every `__init__.py` file empty.
