@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "agent-home-sync"
+version = "0.1.0"
+description = "Sync managed agent home files from this repository into a target home directory."
+authors = ["emdim"]
+readme = "docs/README.md"
+packages = [{ include = "agent_home_sync" }]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.0"
+
+[tool.poetry.scripts]
+sync-agent-home = "agent_home_sync.cli:main"
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
